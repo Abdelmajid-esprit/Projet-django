@@ -26,6 +26,3 @@ class Entreprise(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     gerant = models.OneToOneField(utilisateur,on_delete=models.CASCADE,related_name='entreprise') 
 
-
-class Expedition(models.models):
-    

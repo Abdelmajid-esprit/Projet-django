@@ -19,6 +19,11 @@ class Expedition(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        super().clean()
+        if self.entreprise_id and self.entreprise.type_entreprise != 'c':
+            raise ValidationError("Une expédition doit être associée à une entreprise de type 'Chargeur'.")
+
     def _generate_reference(cls):
         annee=timezone.now().strftime('%Y')
         prefixe = f"EXP_{annee}_"
@@ -27,7 +32,20 @@ class Expedition(models.Model):
         if compteur > 99999:
             raise ValidationError("Le compteur a dépassé la limite maximale de 99999.")
         return f"{prefixe}{compteur:05d}"
-
+    
+    def _generate_user_id(cls):
+        annee = timezone.now().strftime('%y')
+        prefixe = f"{annee}user"
+        dernier = cls.objects.filter(user_id__startswith=prefixe).order_by('user_id').last()
+        if dernier:
+            dernier_id = dernier.user_id
+            dernier_num = int(dernier_id[-2:])
+            nouveau = dernier_num + 1
+        else:
+            nouveau = 1
+        if nouveau > 99:
+            raise ValidationError("Le compteur a dépassé la limite maximale de 99.")
+        return f"{prefixe}{nouveau:02d}"
 
     def save (self, *args, **kwargs):
         if not self.reference:

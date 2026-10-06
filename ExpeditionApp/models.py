@@ -1,10 +1,13 @@
 from django.db import models
 from EntrepriseApp.models import Entreprise
+from django.core.validators import MinValueValidator
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Expedition(models.Model):
     reference = models.CharField(max_length=20,unique=True)
-    poid_kg = models.DecimalField(max_digits=10,decimal_places=2)
+    poid_kg = models.DecimalField(max_digits=10,decimal_places=2,validators=[MinValueValidator(1,"Le poid de l'expedition doit être supérieur à 0")])
     status = models.CharField(max_length=20,choices=[
         ('p','publiee'),
         ('a','attribuee'),
@@ -15,3 +18,19 @@ class Expedition(models.Model):
     entreprise = models.ForeignKey(Entreprise,on_delete=models.CASCADE,related_name='expedition')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def _generate_reference(cls):
+        annee=timezone.now().strftime('%Y')
+        prefixe = f"EXP_{annee}_"
+        dernier=cls.objects.filter(reference__startswith=prefixe).order_by('reference').last()
+        compteur=int(dernier.reference[-5:]) + 1 if dernier else 1
+        if compteur > 99999:
+            raise ValidationError("Le compteur a dépassé la limite maximale de 99999.")
+        return f"{prefixe}{compteur:05d}"
+
+
+    def save (self, *args, **kwargs):
+        if not self.reference:
+            self.reference = self._generate_reference()
+        self.full_clean()  # Valide les champs avant de sauvegarder
+        super().save(*args, **kwargs)

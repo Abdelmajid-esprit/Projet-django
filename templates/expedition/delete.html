@@ -1,0 +1,25 @@
+{% extends "expedition/base.html" %}
+
+{% block title %}Supprimer {{ object.reference }} — TransConnect{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <p class="eyebrow">Action irréversible</p>
+        <h1>Supprimer l'expédition ?</h1>
+        <p class="subtitle">Vérifiez les informations avant de confirmer.</p>
+    </div>
+
+    <section class="panel">
+        <p class="warning-box">
+            Vous êtes sur le point de supprimer l'expédition
+            <strong>{{ object.reference }}</strong>. Cette action ne peut pas être annulée.
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-row">
+                <button class="button button-danger" type="submit">Confirmer la suppression</button>
+                <a class="button button-secondary" href="{% url 'ExpeditionApp:detail' object.id %}">Garder l'expédition</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

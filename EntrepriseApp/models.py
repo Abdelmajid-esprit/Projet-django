@@ -2,8 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
-from django.core.validators import ValidationError
+from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 
 #Validators
@@ -27,8 +29,31 @@ class utilisateur(AbstractUser):
         ('admin','Admin'),
         ('c','Chargeur'),
         ('t','Transporteur')],default='c')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    
+def save(self, *args, **kwargs):
+    if not self.user_id:
+        self.user_id = self.generate_user_id()
+    #full_clean()  # Validate the model fields before saving
+    self.full_clean()  # Validate the model fields before saving
+    super().save(*args, **kwargs) 
+
+@classmethod
+def generate_user_id(cls):
+    annee = timezone.now().strftime('%y')  
+    prefixe = f"{annee}USR"
+    dernier=(
+        cls.objects
+        .filter(user_id__startswith=prefixe)
+        .order_by('-user_id')
+        .first()
+    )
+    compteur = int(dernier.user_id[-2:]) + 1 if dernier else 0
+    if compteur > 99:
+        raise ValueError(f"Limite de 100 utilisateurs atteinte pour l'année 20{annee}."
+        )
+    return f"{prefixe}{compteur:02d}"
 
 class Entreprise(models.Model):
     raison_social= models.CharField(max_length=200,blank=False,null=False)

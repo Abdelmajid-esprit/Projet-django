@@ -1,0 +1,36 @@
+{% extends "expedition/base.html" %}
+
+{% block title %}{{ expedition.reference }} — TransConnect{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <p class="eyebrow">Détail de l'expédition</p>
+        <h1>{{ expedition.reference }}</h1>
+        <p class="subtitle">Retrouvez ici les informations principales de votre transport.</p>
+    </div>
+
+    <section class="panel">
+        <dl class="detail-grid">
+            <div class="detail-item">
+                <dt>Entreprise</dt>
+                <dd>{{ expedition.entreprise }}</dd>
+            </div>
+            <div class="detail-item">
+                <dt>Poids</dt>
+                <dd>{{ expedition.poid_kg }} kg</dd>
+            </div>
+            <div class="detail-item">
+                <dt>Statut</dt>
+                <dd><span class="status-pill">{{ expedition.get_status_display }}</span></dd>
+            </div>
+            <div class="detail-item">
+                <dt>Créée le</dt>
+                <dd>{{ expedition.created_at|date:"d/m/Y" }}</dd>
+            </div>
+        </dl>
+        <div class="button-row">
+            <a class="button button-secondary" href="{% url 'ExpeditionApp:list' %}">Retour à la liste</a>
+            <a class="button button-danger" href="{% url 'ExpeditionApp:delete' expedition.pk %}">Supprimer</a>
+        </div>
+    </section>
+{% endblock %}

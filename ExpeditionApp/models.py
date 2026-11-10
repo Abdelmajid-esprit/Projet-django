@@ -24,6 +24,7 @@ class Expedition(models.Model):
         if self.entreprise_id and self.entreprise.type_entreprise != 'c':
             raise ValidationError("Une expédition doit être associée à une entreprise de type 'Chargeur'.")
 
+    @classmethod
     def _generate_reference(cls):
         annee=timezone.now().strftime('%Y')
         prefixe = f"EXP_{annee}_"

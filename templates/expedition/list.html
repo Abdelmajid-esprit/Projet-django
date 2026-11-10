@@ -1,0 +1,33 @@
+{% extends "expedition/base.html" %}
+
+{% block title %}Expéditions — TransConnect{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <p class="eyebrow">Espace logistique</p>
+        <h1>Vos expéditions</h1>
+        <p class="subtitle">Consultez les expéditions publiées et accédez à leurs détails.</p>
+    </div>
+
+    <section class="panel" aria-label="Liste des expéditions">
+        {% if expeditions %}
+            <ul class="expedition-list">
+                {% for expedition in expeditions %}
+                    <li class="expedition-card">
+                        <a class="expedition-link" href="{% url 'ExpeditionApp:detail' expedition.id %}">
+                            <strong>{{ expedition.reference }}</strong>
+                            <span>{{ expedition.entreprise }}</span>
+                        </a>
+                        <span class="arrow" aria-hidden="true">→</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <p><strong>Aucune expédition publiée pour le moment.</strong></p>
+                <p>Créez une expédition pour commencer à organiser vos transports.</p>
+                <a class="button" href="{% url 'ExpeditionApp:create_expedition' %}">Créer une expédition</a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

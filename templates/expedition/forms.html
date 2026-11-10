@@ -1,0 +1,29 @@
+{% extends "expedition/base.html" %}
+
+{% block title %}
+    {% if object %}Modifier une expédition{% else %}Nouvelle expédition{% endif %} — TransConnect
+{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <p class="eyebrow">Gestion des expéditions</p>
+        {% if object %}
+            <h1>Modifier l'expédition</h1>
+            <p class="subtitle">Mettez à jour les informations de {{ object.reference }}.</p>
+        {% else %}
+            <h1>Créer une expédition</h1>
+            <p class="subtitle">Renseignez les informations nécessaires à la publication.</p>
+        {% endif %}
+    </div>
+
+    <section class="panel form-panel">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-row">
+                <button class="button" type="submit">Enregistrer</button>
+                <a class="button button-secondary" href="{% url 'ExpeditionApp:list' %}">Annuler</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

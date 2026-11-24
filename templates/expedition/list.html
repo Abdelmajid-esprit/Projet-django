@@ -3,11 +3,27 @@
 {% block title %}Expéditions — TransConnect{% endblock %}
 
 {% block content %}
-    <div class="page-heading">
-        <p class="eyebrow">Espace logistique</p>
-        <h1>Vos expéditions</h1>
-        <p class="subtitle">Consultez les expéditions publiées et accédez à leurs détails.</p>
+    <div class="page-heading" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px;">
+        <div>
+            <p class="eyebrow">Espace logistique</p>
+            <h1>Vos expéditions</h1>
+            <p class="subtitle">Consultez les expéditions publiées et gérez vos transports.</p>
+        </div>
+        <a class="button" href="{% url 'ExpeditionApp:create_expedition' %}">+ Nouvelle expédition</a>
     </div>
+
+    <section class="panel" style="margin-bottom:16px; padding:18px 22px;">
+        <form method="get" style="display:flex; gap:10px;">
+            <input
+                type="search"
+                name="q"
+                value="{{ request.GET.q|default:'' }}"
+                placeholder="Rechercher par référence ou entreprise..."
+                style="flex:1; min-height:44px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:9px; font:inherit;"
+            >
+            <button class="button" type="submit">Rechercher</button>
+        </form>
+    </section>
 
     <section class="panel" aria-label="Liste des expéditions">
         {% if expeditions %}
@@ -16,8 +32,13 @@
                     <li class="expedition-card">
                         <a class="expedition-link" href="{% url 'ExpeditionApp:detail' expedition.id %}">
                             <strong>{{ expedition.reference }}</strong>
-                            <span>{{ expedition.entreprise }}</span>
+                            <span>{{ expedition.entreprise.raison_social }}</span>
                         </a>
+                        <div style="min-width:120px; text-align:right;">
+                            <strong style="display:block; color:var(--navy);">{{ expedition.poid_kg }} kg</strong>
+                            <span class="status-pill">{{ expedition.get_status_display }}</span>
+                        </div>
+                        <a class="button button-secondary" href="{% url 'ExpeditionApp:update_expedition' expedition.pk %}">Modifier</a>
                         <span class="arrow" aria-hidden="true">→</span>
                     </li>
                 {% endfor %}

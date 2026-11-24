@@ -1,0 +1,6 @@
+{% extends "expedition/base.html" %}
+{% block title %}Supprimer une offre{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Confirmation</p><h1>Supprimer l'offre</h1></div>
+<section class="panel"><div class="warning-box"><strong>Voulez-vous supprimer cette offre de {{ object.prix }} TND ?</strong></div><form method="post">{% csrf_token %}<div class="button-row"><button class="button button-danger" type="submit">Supprimer définitivement</button><a class="button button-secondary" href="{% url 'OffreApp:list' %}">Annuler</a></div></form></section>
+{% endblock %}

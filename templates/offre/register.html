@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription — TransConnect</title>
+    <style>
+        :root {
+            --navy: #10233f;
+            --teal: #087f8c;
+            --line: #dce4ee;
+            --muted: #64748b;
+        }
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(8,127,140,.12), transparent 30rem),
+                #f3f6fa;
+            color: #1e293b;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+        }
+        .register-card {
+            width: min(520px, calc(100% - 32px));
+            margin: 32px 0;
+            padding: 38px;
+            border: 1px solid rgba(226,232,240,.95);
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 18px 50px rgba(16,35,63,.11);
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: var(--navy);
+            font-weight: 800;
+        }
+        .brand-mark {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border-radius: 10px;
+            background: #10a3a6;
+            color: white;
+        }
+        h1 {
+            margin: 0 0 7px;
+            color: var(--navy);
+            font-size: 2rem;
+            letter-spacing: -.03em;
+        }
+        .subtitle { margin: 0 0 24px; color: var(--muted); }
+        form p { margin: 0 0 16px; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--navy);
+            font-size: .92rem;
+            font-weight: 700;
+        }
+        .form-control {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: white;
+            color: #1e293b;
+            font: inherit;
+        }
+        .form-control:focus {
+            border-color: var(--teal);
+            outline: 3px solid rgba(8,127,140,.12);
+        }
+        .helptext, .errorlist { display: block; color: var(--muted); font-size: .82rem; }
+        .errorlist { margin: 5px 0 0; padding: 0; color: #b42332; list-style: none; }
+        .submit {
+            width: 100%;
+            min-height: 46px;
+            margin-top: 4px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--teal);
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 800;
+        }
+        .submit:hover { background: #066873; }
+        .login-link { margin: 18px 0 0; color: var(--muted); text-align: center; }
+        .login-link a { color: #066873; font-weight: 700; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <main class="register-card">
+        <div class="brand"><span class="brand-mark">T</span><span>TransConnect</span></div>
+        <h1>Créer votre compte</h1>
+        <p class="subtitle">Inscrivez-vous pour accéder à l'espace logistique.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="submit" type="submit">S'inscrire</button>
+        </form>
+        <a href="{% url 'login' %}">Déjà un compte ? Connectez-vous ici .</a>
+    </main>
+</body>
+</html>

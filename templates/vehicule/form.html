@@ -1,0 +1,6 @@
+{% extends "expedition/base.html" %}
+{% block title %}{% if object %}Modifier{% else %}Nouveau{% endif %} véhicule{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Gestion du parc</p><h1>{% if object %}Modifier le véhicule{% else %}Ajouter un véhicule{% endif %}</h1></div>
+<section class="panel form-panel"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="button-row"><button class="button" type="submit">Enregistrer</button><a class="button button-secondary" href="{% url 'VehiculeApp:list' %}">Annuler</a></div></form></section>
+{% endblock %}

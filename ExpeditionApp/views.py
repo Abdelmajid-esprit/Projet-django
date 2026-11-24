@@ -17,7 +17,14 @@ def welcome(request, name):
 
 
 def list_expeditions(request):
-    expeditions = Expedition.objects.filter(status="p").order_by("created_at")
+    expeditions = Expedition.objects.filter(status="p").select_related("entreprise").order_by("-created_at")
+    search = request.GET.get("q", "").strip()
+    if search:
+        expeditions = expeditions.filter(
+            reference__icontains=search
+        ) | expeditions.filter(
+            entreprise__raison_social__icontains=search
+        )
     return render(
         request,
         "expedition/list.html",

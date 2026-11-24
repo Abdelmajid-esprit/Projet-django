@@ -1,0 +1,15 @@
+{% extends "expedition/base.html" %}
+{% block title %}Entreprises — TransConnect{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Gestion des partenaires</p><h1>Entreprises</h1><p class="subtitle">Chargeurs et transporteurs enregistrés.</p></div>
+<section class="panel">
+    <div class="button-row" style="margin:0 0 20px;"><a class="button" href="{% url 'EntrepriseApp:create' %}">+ Nouvelle entreprise</a></div>
+    {% if entreprises %}
+    <ul class="expedition-list">
+        {% for entreprise in entreprises %}
+        <li class="expedition-card"><div class="expedition-link"><strong>{{ entreprise.raison_social }}</strong><span>{{ entreprise.get_type_entreprise_display }} — {{ entreprise.matricule_fiscale }}</span></div><a class="button button-secondary" href="{% url 'EntrepriseApp:update' entreprise.pk %}">Modifier</a><a class="button button-danger" href="{% url 'EntrepriseApp:delete' entreprise.pk %}">Supprimer</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}<div class="empty-state"><p><strong>Aucune entreprise enregistrée.</strong></p></div>{% endif %}
+</section>
+{% endblock %}

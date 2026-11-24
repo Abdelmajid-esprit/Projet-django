@@ -14,7 +14,7 @@ class Expedition(models.Model):
         ('e','en cours'),
         ('l','livree'),
         ('an','annulee')
-    ],default='publiee')
+    ],default='p')
     entreprise = models.ForeignKey(Entreprise,on_delete=models.CASCADE,related_name='expedition')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

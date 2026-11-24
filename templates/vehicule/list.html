@@ -1,0 +1,8 @@
+{% extends "expedition/base.html" %}
+{% block title %}Véhicules — TransConnect{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Parc automobile</p><h1>Véhicules</h1><p class="subtitle">Gérez les véhicules des transporteurs.</p></div>
+<section class="panel"><div class="button-row" style="margin:0 0 20px;"><a class="button" href="{% url 'VehiculeApp:create' %}">+ Nouveau véhicule</a></div>
+{% if vehicules %}<ul class="expedition-list">{% for vehicule in vehicules %}<li class="expedition-card"><div class="expedition-link"><strong>{{ vehicule.immatriculation }}</strong><span>{{ vehicule.capacite_kg }} kg — {{ vehicule.entreprise.raison_social }}</span></div><a class="button button-secondary" href="{% url 'VehiculeApp:update' vehicule.pk %}">Modifier</a><a class="button button-danger" href="{% url 'VehiculeApp:delete' vehicule.pk %}">Supprimer</a></li>{% endfor %}</ul>{% else %}<div class="empty-state"><p><strong>Aucun véhicule enregistré.</strong></p></div>{% endif %}
+</section>
+{% endblock %}

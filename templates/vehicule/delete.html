@@ -1,0 +1,6 @@
+{% extends "expedition/base.html" %}
+{% block title %}Supprimer un véhicule{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Confirmation</p><h1>Supprimer le véhicule</h1></div>
+<section class="panel"><div class="warning-box"><strong>Voulez-vous supprimer {{ object.immatriculation }} ?</strong></div><form method="post">{% csrf_token %}<div class="button-row"><button class="button button-danger" type="submit">Supprimer définitivement</button><a class="button button-secondary" href="{% url 'VehiculeApp:list' %}">Annuler</a></div></form></section>
+{% endblock %}

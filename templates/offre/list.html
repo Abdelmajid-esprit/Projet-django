@@ -1,0 +1,8 @@
+{% extends "expedition/base.html" %}
+{% block title %}Offres — TransConnect{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Propositions transport</p><h1>Offres</h1><p class="subtitle">Consultez les propositions des transporteurs.</p></div>
+<section class="panel"><div class="button-row" style="margin:0 0 20px;"><a class="button" href="{% url 'OffreApp:create' %}">+ Nouvelle offre</a></div>
+{% if offres %}<ul class="expedition-list">{% for offre in offres %}<li class="expedition-card"><div class="expedition-link"><strong>{{ offre.prix }} TND — {{ offre.get_statut_display }}</strong><span>{{ offre.delai_jours }} jours — {{ offre.expedition.reference }}</span></div><a class="button button-secondary" href="{% url 'OffreApp:update' offre.pk %}">Modifier</a><a class="button button-danger" href="{% url 'OffreApp:delete' offre.pk %}">Supprimer</a></li>{% endfor %}</ul>{% else %}<div class="empty-state"><p><strong>Aucune offre enregistrée.</strong></p></div>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "expedition/base.html" %}
+{% block title %}{% if object %}Modifier{% else %}Nouvelle{% endif %} entreprise{% endblock %}
+{% block content %}
+<div class="page-heading"><p class="eyebrow">Gestion des entreprises</p><h1>{% if object %}Modifier l'entreprise{% else %}Ajouter une entreprise{% endif %}</h1></div>
+<section class="panel form-panel"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="button-row"><button class="button" type="submit">Enregistrer</button><a class="button button-secondary" href="{% url 'EntrepriseApp:list' %}">Annuler</a></div></form></section>
+{% endblock %}
